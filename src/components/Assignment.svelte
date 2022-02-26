@@ -1,10 +1,13 @@
 <script>
-    export let gradeTarget;         // used for 'backwards' calculation
+    // used for 'backwards' calculation
+    export let gradeTarget;
 
+    // the user writes these in
     export let title;
-    export let weight;
-    export let gradeOverride;       // the user writes this in
+    export let weight = 1;
+    export let gradeOverride;
 </script>
+
 
 <div class="flex gap-3 h-full w-full">
     <!--    Title    -->

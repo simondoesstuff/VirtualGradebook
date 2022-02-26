@@ -1,47 +1,45 @@
 <script>
     import Assignment from "./Assignment.svelte";
-    import AssignmentMod from "./AssignmentMod.svelte";
+    import {averageElements, computeGradeTargets} from "$scripts/GradeCalculation.ts";
+    import AssignmentMod from "$components/AssignmentMod.svelte";
 
 
-    // todo set to undefined
-    export let gradeTarget = 90;             // used for 'backwards' calculation
+    // used for 'backwards' calculation
+    //      nullable -- (no course final grade target set)
+    export let gradeTarget;
 
+    // the user writes these in
     export let title;
     export let weight = 1;
-    export let gradeOverride;           // the user writes this in
+    export let gradeOverride;   // nullable
 
+    // the average of the contained assignments
+    //      nullable -- (assignments are null)
     export let gradeCalculated;
 
     export let assignments = [];
 
-    // set the gradeCalculated based on assignments[]
-    $: {
-        let totalWeight = 0;
-        let numerator = 0;
-
-        assignments.forEach(item => {
-            totalWeight += item.weight;
-            numerator += item.gradeOverride * item.weight;
-        });
-
-        gradeCalculated = numerator / totalWeight;
-    }
+    // set it reactively as assignments update
+    $: gradeCalculated = averageElements(assignments.map(assignment => ({
+        grade: assignment.gradeOverride,
+        weight: assignment.weight,
+        target: assignment.gradeTarget
+    })));
 
     // set the assignments gradeTarget based on this.gradeTarget
     $: {
-        // todo not done yet
+        let categoryTargetGrades = computeGradeTargets(gradeTarget, assignments.map(assignment => ({
+            grade: assignment.gradeOverride,
+            weight: assignment.weight,
+        })));
 
-        // let totalWeight = 0;
-        // let numerator = 0;
-        //
-        // assignments.forEach(item => {
-        //     totalWeight += item.weight;
-        //     numerator += item.gradeOverride * item.weight;
-        // });
-        //
-        // gradeCalculated = numerator / totalWeight;
+        assignments = assignments.map(item => {
+            item.gradeTarget = categoryTargetGrades;
+            return item;
+        });
     }
 </script>
+
 
 <div class="p-3 bg-neutral-500 w-full">
     <div class="flex justify-between gap-3 h-8">
@@ -52,7 +50,7 @@
             <!--    Weight    -->
             <input class="w-8 text-center" type="number" bind:value={weight}>
             <!--    Grade   -->
-            <input class="w-8 text-center" type="number" bind:value={gradeOverride}>
+            <input class="w-8 text-center" type="number" bind:value={gradeCalculated}>
         </div>
     </div>
 
