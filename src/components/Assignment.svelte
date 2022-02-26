@@ -1,14 +1,23 @@
 <script>
-    export let gradeCalculated;
+    export let gradeTarget;         // used for 'backwards' calculation
 
     export let title;
     export let weight = 1;
-    export let gradeOverride;
+    export let gradeOverride;       // the user writes this in
 </script>
 
-<!--    Title    -->
-<input value={title}>
-<!--    Weight    -->
-<input value={weight}>
-<!--    Grade   -->
-<input value={gradeOverride + "%"}>
+
+<div>
+    <!--    Title    -->
+<input bind:value={title}>
+    <!--    Weight    -->
+<input type="number" bind:value={weight}>
+
+    {#if gradeOverride}
+    <!--    User Entered Grade   -->
+    <input type="number" bind:value={gradeOverride}>
+{:else}
+    <!--    Backwards Calculated Grade   -->
+    <span>{gradeTarget}</span>
+{/if}
+</div>
