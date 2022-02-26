@@ -57,29 +57,31 @@
     <div class="mt-3 bg-neutral-200">
         <div class="flex flex-col gap-3 py-3">
             {#each assignments as item, index}
-                {#if assignments.length-1 !== index}
+                {#if assignments.length - 1 !== index}
                     <!--The assignment without the plus-->
                     <div class="flex items-center h-8">
                         <div class="flex gap-2 mx-2">
-                            <AssignmentMod />
-                            <AssignmentMod icon="sub" />
+                            <AssignmentMod/>
+                            <AssignmentMod icon="sub"/>
                         </div>
-                        <Assignment bind:title={item.title}
-                                    bind:weight={item.weight}
-                                    bind:gradeOverride={item.gradeOverride}>
-                        </Assignment>
+                        <Assignment
+                                bind:title={item.title}
+                                bind:weight={item.weight}
+                                bind:gradeOverride={item.gradeOverride}
+                        />
                     </div>
                 {:else}
                     <!--The assignment with the plus-->
                     <div class="flex items-center h-8">
                         <div class="flex gap-2 mx-2">
-                            <AssignmentMod icon="add" />
-                            <AssignmentMod icon="sub" />
+                            <AssignmentMod icon="add"/>
+                            <AssignmentMod icon="sub"/>
                         </div>
-                        <Assignment bind:title={item.title}
-                                    bind:weight={item.weight}
-                                    bind:gradeOverride={item.gradeOverride}>
-                        </Assignment>
+                        <Assignment
+                                bind:title={item.title}
+                                bind:weight={item.weight}
+                                bind:gradeOverride={item.gradeOverride}
+                        />
                     </div>
                 {/if}
             {/each}

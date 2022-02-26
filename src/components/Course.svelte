@@ -11,34 +11,7 @@
     // todo set to undef
     export let gradeOverride = 90;   // used for backwards calculation
 
-    let categories = [
-        {
-            title: "Default Category",
-            assignments: [
-                {
-                    title: "Default Assignment",
-                    gradeOverride: 80,
-                },
-                {
-                    title: "Default Assignment 2",
-                    gradeOverride: 50,
-                }
-            ]
-        },
-        {
-            title: "Default Category 2",
-            assignments: [
-                {
-                    title: "Default Assignment",
-                    gradeOverride: 80,
-                },
-                {
-                    title: "Default Assignment 2",
-                    gradeOverride: 50,
-                }
-            ]
-        }
-    ];
+    export let categories;
 
     // the average of the contained assignments
     //      nullable -- (assignments are null)
@@ -86,30 +59,32 @@
     <div class="p-5 bg-neutral-200">
         <div class="flex flex-col gap-5 mx-auto max-w-4xl">
             {#each categories as category, index}
-                {#if categories.length-1 !== index}
+                {#if categories.length - 1 !== index}
                     <!--The category without the plus-->
                     <div class="flex items-center gap-3">
-                        <CategoryMod />
-                        <CategoryMod icon="sub" />
-                        <Category bind:title={category.title}
-                                  bind:weight={category.weight}
-                                  bind:gradeOverride={category.gradeOverride}
-                                  bind:gradeCalculated={category.gradeCalculated}
-                                  bind:gradeTarget={category.gradeTarget}
-                                  bind:assignments={category.assignments}
+                        <CategoryMod/>
+                        <CategoryMod icon="sub"/>
+                        <Category
+                                bind:title={category.title}
+                                bind:weight={category.weight}
+                                bind:gradeOverride={category.gradeOverride}
+                                bind:gradeCalculated={category.gradeCalculated}
+                                bind:gradeTarget={category.gradeTarget}
+                                bind:assignments={category.assignments}
                         />
                     </div>
                 {:else}
                     <!--The category with the plus-->
                     <div class="flex items-center gap-3">
-                        <CategoryMod icon="add" />
-                        <CategoryMod icon="sub" />
-                        <Category bind:title={category.title}
-                                  bind:weight={category.weight}
-                                  bind:gradeOverride={category.gradeOverride}
-                                  bind:gradeCalculated={category.gradeCalculated}
-                                  bind:gradeTarget={category.gradeTarget}
-                                  bind:assignments={category.assignments}
+                        <CategoryMod icon="add"/>
+                        <CategoryMod icon="sub"/>
+                        <Category
+                                bind:title={category.title}
+                                bind:weight={category.weight}
+                                bind:gradeOverride={category.gradeOverride}
+                                bind:gradeCalculated={category.gradeCalculated}
+                                bind:gradeTarget={category.gradeTarget}
+                                bind:assignments={category.assignments}
                         />
                     </div>
                 {/if}
