@@ -1,6 +1,7 @@
 <script>
     import Assignment from "./Assignment.svelte";
     import {averageElements, computeGradeTargets} from "$scripts/GradeCalculation.ts";
+    import AssignmentMod from "$components/AssignmentMod.svelte";
 
 
     // used for 'backwards' calculation
@@ -16,16 +17,7 @@
     //      nullable -- (assignments are null)
     export let gradeCalculated;
 
-    let assignments = [
-        {
-            title: "do your damn job",
-            gradeOverride: 50
-        },
-        {
-            title: "I swear",
-            gradeOverride: 80
-        }
-    ];
+    export let assignments = [];
 
     // set it reactively as assignments update
     $: gradeCalculated = averageElements(assignments.map(assignment => ({
@@ -48,28 +40,49 @@
     }
 </script>
 
-<!--    Title    -->
-<input bind:value={title}>
-<!--    Weight    -->
-<input type="number" bind:value={weight}>
 
-{#if gradeOverride}
-    <!--    User Entered Category Override   -->
-    <input type="number" bind:value={gradeOverride}>
-{:else}
-    <!--    Forwards Calculated Grade   -->
-    <span>{gradeCalculated}</span>
-{/if}
+<div class="p-3 bg-neutral-500 w-full">
+    <div class="flex justify-between gap-3 h-8">
+        <!--    Title    -->
+        <input class="flex-grow px-3" bind:value={title}>
 
-<div class="p-5">
-    {#each assignments as item}
-        <Assignment bind:title={item.title}
-                    bind:weight={item.weight}
-                    bind:gradeOverride={item.gradeOverride}
-                    bind:gradeTarget={item.gradeTarget}>
-        </Assignment>
-    {/each}
+        <div class="flex gap-3">
+            <!--    Weight    -->
+            <input class="w-8 text-center" type="number" bind:value={weight}>
+            <!--    Grade   -->
+            <input class="w-8 text-center" type="number" bind:value={gradeCalculated}>
+        </div>
+    </div>
+
+    <div class="mt-3 bg-neutral-200">
+        <div class="flex flex-col gap-3 py-3">
+            {#each assignments as item, index}
+                {#if assignments.length-1 !== index}
+                    <!--The assignment without the plus-->
+                    <div class="flex items-center h-8">
+                        <div class="flex gap-2 mx-2">
+                            <AssignmentMod />
+                            <AssignmentMod icon="sub" />
+                        </div>
+                        <Assignment bind:title={item.title}
+                                    bind:weight={item.weight}
+                                    bind:gradeOverride={item.gradeOverride}>
+                        </Assignment>
+                    </div>
+                {:else}
+                    <!--The assignment with the plus-->
+                    <div class="flex items-center h-8">
+                        <div class="flex gap-2 mx-2">
+                            <AssignmentMod icon="add" />
+                            <AssignmentMod icon="sub" />
+                        </div>
+                        <Assignment bind:title={item.title}
+                                    bind:weight={item.weight}
+                                    bind:gradeOverride={item.gradeOverride}>
+                        </Assignment>
+                    </div>
+                {/if}
+            {/each}
+        </div>
+    </div>
 </div>
-
-<button on:click={() => console.log(gradeTarget)}>Click</button>
-<br/>
