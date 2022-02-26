@@ -5,10 +5,12 @@
     // todo set to undefined
     export let gradeTarget = 90;             // used for 'backwards' calculation
 
+    // the user writes these in
     export let title;
     export let weight = 1;
-    export let gradeOverride;           // the user writes this in
+    export let gradeOverride;
 
+    // the average of the contained assignments
     export let gradeCalculated;
 
     let assignments = [
@@ -25,29 +27,54 @@
     // set the gradeCalculated based on assignments[]
     $: {
         let totalWeight = 0;
-        let numerator = 0;
+        let weightedGrades = 0;
 
         assignments.forEach(item => {
             totalWeight += item.weight;
-            numerator += item.gradeOverride * item.weight;
+
+            // use the gradeTarget if the override isn't used
+            let assignmentGrade = item.gradeOverride ?? item.gradeTarget;
+
+            weightedGrades += item.weight * assignmentGrade;
         });
 
-        gradeCalculated = numerator / totalWeight;
+        gradeCalculated = weightedGrades / totalWeight;
     }
 
     // set the assignments gradeTarget based on this.gradeTarget
     $: {
         // todo not done yet
 
-        // let totalWeight = 0;
-        // let numerator = 0;
-        //
-        // assignments.forEach(item => {
-        //     totalWeight += item.weight;
-        //     numerator += item.gradeOverride * item.weight;
-        // });
-        //
-        // gradeCalculated = numerator / totalWeight;
+        let totalWeight = 0;
+        let knownWeightedGrades = 0;
+        let unknownTotalWeight = 0;
+
+        // sum the total weight
+        assignments.forEach(item => {
+            totalWeight += item.weight;
+        });
+
+        // filter by assignments with an override
+        assignments
+            .filter(item => item.gradeOverride)
+            .forEach(item => {
+                knownWeightedGrades = item.weight * item.gradeOverride;
+            });
+
+        // filter by assignments without an override
+        assignments
+            .filter(item => !item.gradeOverride)
+            .forEach(item => {
+                unknownTotalWeight += item.weight;
+            });
+
+        let assignmentGradeTarget = ( gradeTarget * totalWeight - knownWeightedGrades ) / unknownTotalWeight;
+
+        // apply calculated property to each assignment
+        assignments = assignments.map(item => {
+            item.gradeTarget = assignmentGradeTarget;
+            return item;
+        });
     }
 </script>
 
@@ -68,7 +95,8 @@
     {#each assignments as item}
         <Assignment bind:title={item.title}
                     bind:weight={item.weight}
-                    bind:gradeOverride={item.gradeOverride}>
+                    bind:gradeOverride={item.gradeOverride}
+                    bind:gradeTarget={item.gradeTarget}>
         </Assignment>
     {/each}
 </div>

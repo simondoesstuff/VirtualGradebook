@@ -1,9 +1,10 @@
 <script>
     export let gradeTarget;         // used for 'backwards' calculation
 
+    // the user writes these in
     export let title;
     export let weight = 1;
-    export let gradeOverride;       // the user writes this in
+    export let gradeOverride;
 </script>
 
 
