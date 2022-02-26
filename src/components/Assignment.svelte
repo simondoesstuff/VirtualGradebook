@@ -1,5 +1,6 @@
 <script>
-    export let gradeTarget;         // used for 'backwards' calculation
+    // used for 'backwards' calculation
+    export let gradeTarget;
 
     // the user writes these in
     export let title;
