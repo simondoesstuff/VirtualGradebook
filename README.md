@@ -1,5 +1,3 @@
-# VirtualGradebook
-Hackathon project 2022
+Hackathon Project 2022
 
-### Simon is so cool
-*... its unexplainable*
+ - Here we go baby.
