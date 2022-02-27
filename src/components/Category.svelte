@@ -41,7 +41,7 @@
 </script>
 
 
-<div class="p-3 bg-neutral-500 w-full">
+<div class="p-5 w-full category">
     <div class="flex justify-between gap-3 h-8">
         <!--    Title    -->
         <input class="flex-grow px-3" bind:value={title} placeholder="Category">
@@ -54,11 +54,13 @@
         </div>
     </div>
 
-    <div class="mt-3 bg-neutral-200">
-        <div class="flex flex-col gap-3 py-3">
+    <hr class="border-neutral-300 border-t-2 mt-3 mx-20">
+
+    <div>
+        <div class="flex flex-col gap-3 pt-3">
             {#each assignments as item, index (item.id)}
-                <div class="flex items-center h-8" in:fly|local={{ x: 200, duration: 300 }} out:fly|local={{ x: 200, duration: 300 }}>
-                    <div class="flex gap-2 mx-2">
+                <div class="flex items-center h-8 gap-3" in:fly|local={{ x: 200, duration: 300 }} out:fly|local={{ x: 200, duration: 300 }}>
+                    <div class="flex gap-2">
                         {#if assignments.length !== 1}
                             <AssignmentMod on:click={() => removeAssignment(index)} icon="sub"/>
                         {:else if assignments.length === 1}
@@ -79,3 +81,12 @@
         </div>
     </div>
 </div>
+
+<style>
+    .category {
+        border-radius: 15px;
+        background: #e0e0e0;
+        box-shadow: inset 8px 8px 16px #bebebe,
+        inset -8px -8px 16px #ffffff;
+    }
+</style>

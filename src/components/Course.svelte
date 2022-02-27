@@ -48,20 +48,20 @@
     }
 </script>
 
-<div class="m-10" id="course">
+<div class="m-10 course">
     <div class="p-5">
         <div class="flex justify-between items-center p-5">
-            <h1 class="text-[1.5rem]">{title}</h1>
+            <h1 class="text-[2rem]">{title}</h1>
             <div class="flex items-center">
                 <input
-                        class="w-10 h-10 text-center bg-gray-300"
+                        class="w-10 h-10 text-center totalGrade"
                         type="number"
                         placeholder={gradeCalculated}
                         bind:value={gradeOverride}
                         on:input={e => gradeOverride = e.target.value = clamp(e.target.value, 0, 100)}
                 >
                 <div class="grid place-items-center w-10 h-10">
-                    <span class="text-white text-[1.5rem]">%</span>
+                    <span class="text-[1.5rem]">%</span>
                 </div>
             </div>
         </div>
@@ -95,10 +95,16 @@
 </div>
 
 <style>
-    #course {
+    .course {
         border-radius: 50px;
         background: #e0e0e0;
-        box-shadow: -25px 25px 50px #bebebe,
-        25px -25px 50px #ffffff;
+        box-shadow:  10px 10px 20px #bebebe,
+        -10px -10px 20px #ffffff;
+    }
+    .totalGrade {
+        border-radius: 10px;
+        background: #e0e0e0;
+        box-shadow: inset 3px 3px 5px #bebebe,
+        inset -3px -3px 5px #ffffff;
     }
 </style>

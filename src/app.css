@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -15,4 +17,11 @@ input[type=number] {
 
 body {
     background-color: #e0e0e0;
+    font-weight: bold;
+    @apply text-neutral-500;
+    @apply tracking-wider;
+    font-family: 'Roboto', sans-serif;
+}
+input::placeholder {
+    color: #3495eb;
 }
