@@ -42,7 +42,7 @@
     }
 </script>
 
-<div class="m-10 course">
+<div class="mb-10 mx-auto max-w-7xl course">
     <div class="p-5">
         <div class="flex justify-between items-center p-5">
             <input class="px-2.5 grow text-[2rem] mr-3 bg-transparent" bind:value={title} placeholder="Course">
