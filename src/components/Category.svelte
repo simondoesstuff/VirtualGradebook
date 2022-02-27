@@ -3,6 +3,7 @@
     import {averageElements} from "$scripts/GradeCalculation.ts";
     import AssignmentMod from "$components/AssignmentMod.svelte";
     import {fly} from "svelte/transition"
+    import { flip } from 'svelte/animate';
     import {uniqID} from "$scripts/Utils.ts";
 
 
@@ -55,7 +56,10 @@
     <div>
         <div class="flex flex-col gap-3 pt-3">
             {#each assignments as item, index (item.id)}
-                <div class="flex items-center h-8 gap-3" in:fly|local={{ x: 200, duration: 300 }} out:fly|local={{ x: 200, duration: 300 }}>
+                <div class="flex items-center h-8 gap-3"
+                     in:fly|local={{ x: 200, duration: 300 }}
+                     out:fly|local={{ x: 200, duration: 300 }}
+                >
                     <div class="flex gap-2">
                         {#if assignments.length !== 1}
                             <AssignmentMod on:click={() => removeAssignment(index)} icon="sub"/>

@@ -1,16 +1,15 @@
 <script>
     import Course from "$components/Course.svelte";
-    import {uniqID} from "$scripts/Utils.ts";
-    import HamburgerMenuIcon from "../../static/svgs/HamburgerMenuIcon.svelte";
     import Dropdown from "$components/Dropdown.svelte";
+    import {buildDefaultCourse} from "$scripts/CourseFactory.ts";
 
 
     let courses = [];
+    let activeCourseId;
+    let activeCourse;
 
-    let gradebooks = [
-        { text: "CSC114" },
-        { text: "CSC120" }
-    ]
+    // used to display the hamburger menu
+    let gradebooks = [];
 
     function removeCourse(catIndex) {
         courses.splice(catIndex, 1);
@@ -20,19 +19,39 @@
     function addDefaultCourse() {
         courses = [
             ...courses,
-            {
-                categories: [
-                    {assignments: [
-                            {id: uniqID()}
-                        ], id: uniqID()},
-                ],
-                id: uniqID()
-            }
+            buildDefaultCourse()
         ]
     }
 
     // add an inital entry to the state
     addDefaultCourse();
+    // todo remove those
+    addDefaultCourse();
+    addDefaultCourse();
+
+    activeCourseId = courses[0].id;
+
+    // set the active course based on the active course id
+    $: {
+        let course = courses
+            .filter(course => course.id === activeCourseId)
+            .pop();
+
+        if (!course) {
+            // the course was not found. This can not happen.
+            throw "The activeCourseId does not correspond to a course in courses[]."
+        }
+
+        activeCourse = course;
+    }
+
+    // set the gradebooks[] based on the courses[]
+    $: {
+        gradebooks = courses.map(course => ({
+            text: course.title ?? "Course",
+            id: course.id
+        }))
+    }
 </script>
 
 <div class="flex justify-between items-center">
@@ -42,16 +61,11 @@
             Virtual Gradebook
         </h1>
     </div>
-    <Dropdown items={gradebooks}/>
-</div>
-
-{#each courses as course (course.id)}
-    <Course
-            bind:title={course.title}
-            bind:gradeOverride={course.gradeOverride}
-            bind:categories={course.categories}
+    <Dropdown
+            items={gradebooks}
+            bind:activeCourseId
     />
-{/each}
+</div>
 
 <div class="mx-auto max-w-7xl flex justify-end">
     <div class="mx-16">
@@ -59,3 +73,8 @@
         <button class="text-black px-2 py-1 bg-neutral-400">Delete</button>
     </div>
 </div>
+<Course
+        bind:title={activeCourse.title}
+        bind:gradeOverride={activeCourse.gradeOverride}
+        bind:categories={activeCourse.categories}
+/>
