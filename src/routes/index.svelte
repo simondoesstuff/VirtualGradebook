@@ -26,6 +26,9 @@
 
     // add an inital entry to the state
     addDefaultCourse();
+
+    // todo remove
+    addDefaultCourse();
 </script>
 
 {#each courses as course (course.id)}
