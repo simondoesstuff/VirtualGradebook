@@ -67,7 +67,8 @@ export function computeGradeTargets(idealGrade, items) {
 
         // using the category override
         if (category.gradeOverride != null) {
-            knownWeightedGrades += category.gradeOverride * category.weight;
+            let categoryWeight = category.weight ?? 1;
+            knownWeightedGrades += category.gradeOverride * categoryWeight;
             continue;
         }
 
