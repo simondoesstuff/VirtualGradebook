@@ -1,6 +1,6 @@
 <script>
     import Assignment from "./Assignment.svelte";
-    import {averageElements, computeGradeTargets} from "$scripts/GradeCalculation.ts";
+    import {averageElements} from "$scripts/GradeCalculation.ts";
     import AssignmentMod from "$components/AssignmentMod.svelte";
     import {fly} from "svelte/transition"
 
@@ -10,9 +10,7 @@
         return Math.floor(Math.random() * (max - min)) + min; // You can remove the Math.floor if you don't want it to be an integer
     }
 
-    // used for 'backwards' calculation
-    //      nullable -- (no course final grade target set)
-    export let gradeTarget;
+    export let assignments = [];
 
     // the user writes these in
     export let title;
@@ -22,28 +20,11 @@
     // the average of the contained assignments
     //      nullable -- (assignments are null)
     export let gradeCalculated;
-
-    export let assignments = [];
-
-    // set it reactively as assignments update
     $: gradeCalculated = averageElements(assignments.map(assignment => ({
         grade: assignment.gradeOverride,
         weight: assignment.weight,
         target: assignment.gradeTarget
     })));
-
-    // set the assignments gradeTarget based on this.gradeTarget
-    $: {
-        let categoryTargetGrades = computeGradeTargets(gradeTarget, assignments.map(assignment => ({
-            grade: assignment.gradeOverride,
-            weight: assignment.weight,
-        })));
-
-        assignments = assignments.map(item => {
-            item.gradeTarget = categoryTargetGrades;
-            return item;
-        });
-    }
 
     function removeAssignment(catIndex) {
         assignments.splice(catIndex, 1);
@@ -67,9 +48,9 @@
 
         <div class="flex gap-3">
             <!--    Weight    -->
-            <input class="w-8 text-center" type="number" bind:value={weight}>
+            <input class="w-8 text-center" type="number" bind:value={weight} placeholder="1">
             <!--    Grade   -->
-            <input class="w-8 text-center" type="number" bind:value={gradeCalculated}>
+            <input class="w-8 text-center" type="number" bind:value={gradeOverride} placeholder={gradeCalculated}>
         </div>
     </div>
 
@@ -88,6 +69,7 @@
                             bind:title={item.title}
                             bind:weight={item.weight}
                             bind:gradeOverride={item.gradeOverride}
+                            gradeTarget={item.gradeTarget}
                     />
                 </div>
             {/each}

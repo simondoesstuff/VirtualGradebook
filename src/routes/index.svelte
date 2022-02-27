@@ -17,7 +17,7 @@
             ],
             id: rid()
         }
-    ]
+    ];
 
     $: console.log(courses[0].categories.length)
 

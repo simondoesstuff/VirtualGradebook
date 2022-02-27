@@ -26,8 +26,9 @@ export function averageElements(items: GradeElement[]): number {
 
         // if neither was supplied, we are dealing with an empty assignment
         //      skip it
-        if (!assignmentGrade) return;
+        if (assignmentGrade == null) return;
 
+        item.weight ??= 1;
         totalWeight += item.weight;
         weightedGrades += item.weight * assignmentGrade;
     });
@@ -44,13 +45,13 @@ export function averageElements(items: GradeElement[]): number {
 
 /**
  * Returns a new set of items based on the 'items' with
- * computed 'gradeTarget's.
+ * computed 'idealGrade's.
  * @param items
- * @param gradeTarget The target grade that each item should average together to create.
+ * @param idealGrade The target grade that each item should average together to create.
  */
-export function computeGradeTargets(gradeTarget: number, items: WeightedGrade[]): number {
+export function computeGradeTargets(idealGrade, items) {
     // if there is no target grade for this category, the assignments dont get one either
-    if (gradeTarget == null) return null;
+    if (idealGrade == null) return items;
 
     // backwards calculate each assignment's target grade
 
@@ -58,24 +59,41 @@ export function computeGradeTargets(gradeTarget: number, items: WeightedGrade[])
     let knownWeightedGrades = 0;
     let unknownTotalWeight = 0;
 
-    // sum the total weight
-    items.forEach(item => {
-        totalWeight += item.weight;
+    for (let category of items) {
+        if (category.gradeOverride != null) {
+            category.weight ??= 1;
+            totalWeight += category.weight;
+            knownWeightedGrades += category.gradeOverride * category.weight;
+            continue;
+        }
+
+        let internalTotalWeight = 0;
+
+        for (let assignment of category.assignments) {
+            assignment.weight ??= 1;
+            internalTotalWeight += assignment.weight;
+        }
+
+        for (let assignment of category.assignments) {
+            let relativeWeight = assignment.weight / internalTotalWeight * category.weight;
+
+            if (assignment.gradeOverride !== null) {
+                knownWeightedGrades += relativeWeight * assignment.gradeOverride;
+            } else {
+                unknownTotalWeight += relativeWeight;
+            }
+
+            totalWeight += relativeWeight;
+        }
+    }
+
+    let gradeTarget = (idealGrade * totalWeight - knownWeightedGrades) / unknownTotalWeight;
+
+    items.forEach(category => {
+        category.assignments.forEach(assignment => {
+            assignment.gradeTarget = gradeTarget;
+        });
     });
 
-    // filter by assignments with an override
-    items
-        .filter(item => item.grade)
-        .forEach(item => {
-            knownWeightedGrades = item.weight * item.grade;
-        });
-
-    // filter by assignments without an override
-    items
-        .filter(item => !item.grade)
-        .forEach(item => {
-            unknownTotalWeight += item.weight;
-        });
-
-    return ( gradeTarget * totalWeight - knownWeightedGrades ) / unknownTotalWeight;
+    return items;
 }

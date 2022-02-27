@@ -12,12 +12,11 @@
 
     const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
+    export let categories = [];
+
     // the user writes these in
     export let title;
-    // todo set to undef
-    export let gradeOverride = 90;   // used for backwards calculation
-
-    export let categories;
+    export let gradeOverride;   // used for backwards calculation
 
     // the average of the contained assignments
     //      nullable -- (assignments are null)
@@ -29,21 +28,7 @@
     })));
 
     // set the categories gradeTarget based on the grade override
-    $: {
-        let categoryTargetGrades = computeGradeTargets(gradeOverride, categories.map(category => ({
-            grade: (
-                category.gradeOverride ?
-                    category.gradeOverride :
-                    null
-            ),
-            weight: category.weight
-        })));
-
-        categories = categories.map(item => {
-            item.gradeTarget = categoryTargetGrades;
-            return item;
-        });
-    }
+    $: categories = computeGradeTargets(gradeOverride, categories);
 
     function removeCategory(catIndex) {
         categories.splice(catIndex, 1);
@@ -61,7 +46,6 @@
             }
         ]
     }
-
 </script>
 
 <div class="m-10" id="course">
@@ -72,8 +56,9 @@
                 <input
                         class="w-10 h-10 text-center bg-gray-300"
                         type="number"
-                        value={gradeCalculated}
-                        on:input={e => gradeCalculated = e.target.value = clamp(e.target.value, 0, 100)}
+                        placeholder={gradeCalculated}
+                        bind:value={gradeOverride}
+                        on:input={e => gradeOverride = e.target.value = clamp(e.target.value, 0, 100)}
                 >
                 <div class="grid place-items-center w-10 h-10">
                     <span class="text-white text-[1.5rem]">%</span>
