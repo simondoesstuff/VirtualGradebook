@@ -1,17 +1,15 @@
 <script>
     import Course from "$components/Course.svelte";
-    import {uniqID} from "$scripts/Utils.ts";
-    import HamburgerMenuIcon from "../../static/svgs/HamburgerMenuIcon.svelte";
     import Dropdown from "$components/Dropdown.svelte";
-    import {buildCourse} from "$scripts/CourseFactory.ts";
+    import {buildDefaultCourse} from "$scripts/CourseFactory.ts";
 
 
     let courses = [];
+    let activeCourseId;
+    let activeCourse;
 
-    let gradebooks = [
-        { text: "CSC114" },
-        { text: "CSC120" }
-    ]
+    // used to display the hamburger menu
+    let gradebooks = [];
 
     function removeCourse(catIndex) {
         courses.splice(catIndex, 1);
@@ -21,18 +19,39 @@
     function addDefaultCourse() {
         courses = [
             ...courses,
-            buildCourse({
-                categories: [{
-                    assignments: [
-                        {}
-                    ]
-                }]
-            })
+            buildDefaultCourse()
         ]
     }
 
     // add an inital entry to the state
     addDefaultCourse();
+    // todo remove those
+    addDefaultCourse();
+    addDefaultCourse();
+
+    activeCourseId = courses[0].id;
+
+    // set the active course based on the active course id
+    $: {
+        let course = courses
+            .filter(course => course.id === activeCourseId)
+            .pop();
+
+        if (!course) {
+            // the course was not found. This can not happen.
+            throw "The activeCourseId does not correspond to a course in courses[]."
+        }
+
+        activeCourse = course;
+    }
+
+    // set the gradebooks[] based on the courses[]
+    $: {
+        gradebooks = courses.map(course => ({
+            text: course.title ?? "Course",
+            id: course.id
+        }))
+    }
 </script>
 
 <div class="flex justify-between items-center">
@@ -42,13 +61,14 @@
             Virtual Gradebook
         </h1>
     </div>
-    <Dropdown items={gradebooks}/>
+    <Dropdown
+            items={gradebooks}
+            bind:activeCourseId
+    />
 </div>
 
-{#each courses as course (course.id)}
-    <Course
-            bind:title={course.title}
-            bind:gradeOverride={course.gradeOverride}
-            bind:categories={course.categories}
-    />
-{/each}
+<Course
+        bind:title={activeCourse.title}
+        bind:gradeOverride={activeCourse.gradeOverride}
+        bind:categories={activeCourse.categories}
+/>

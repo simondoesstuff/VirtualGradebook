@@ -4,6 +4,7 @@
     import {fade} from "svelte/transition"
 
     export let items;
+    export let activeCourseId;
 
     function dropdownClicked() {
         open = !open;
@@ -22,7 +23,14 @@
         <div class="absolute min-w-[10rem] right-0 top-[4rem] bg-neutral-300 rounded-xl" transition:fade={{duration: 200}}>
             <ul class="px-5 py-3">
                 {#each items as item}
-                    <li><button class="w-full text-left">{item.text}</button></li>
+                    <li>
+                        <button
+                                class="w-full text-left"
+                                on:click={() => activeCourseId = item.id}
+                        >
+                            {item.text}
+                        </button>
+                    </li>
                 {/each}
             </ul>
         </div>

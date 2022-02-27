@@ -68,7 +68,10 @@
             <div class="flex flex-col gap-5 mx-auto max-w-4xl">
                 {#each categories as category, index (category.id)}
                     <!--The category with the plus-->
-                    <div class="flex items-center gap-3" in:fly={{ x: 200, duration: 300 }} out:fly={{ x: 200, duration: 300 }}>
+                    <div class="flex items-center gap-3"
+                         in:fly={{ x: 200, duration: 300 }}
+                         out:fly={{ x: 200, duration: 300 }}
+                    >
                         <div class="flex flex-col gap-3">
                             {#if categories.length !== 1}
                                 <CategoryMod on:click={() => removeCategory(index)} icon="sub"/>
