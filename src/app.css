@@ -23,6 +23,10 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+input {
+    @apply min-w-0;
+}
+
 input[type=number]::placeholder {
     color: #b9b9b9;
 }
