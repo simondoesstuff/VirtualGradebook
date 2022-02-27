@@ -38,7 +38,9 @@ export function averageElements(items: GradeElement[]): number {
     if (totalWeight === 0) {
         return null;
     } else {
-        return weightedGrades / totalWeight;
+        let finalAverage = weightedGrades / totalWeight;
+        finalAverage = finalAverage = Math.round(finalAverage * 10) / 10;
+        return finalAverage;
     }
 }
 
@@ -103,11 +105,8 @@ export function computeGradeTargets(idealGrade, items) {
         }
     }
 
-    console.log('totalWeight ' + totalWeight)
-    console.log('knownWeightedGrades ' + knownWeightedGrades)
-    console.log('unknownTotalWeight ' + unknownTotalWeight)
-
     let gradeTarget = (idealGrade * totalWeight - knownWeightedGrades) / unknownTotalWeight;
+    gradeTarget = Math.round(gradeTarget * 10) / 10;
 
     // in this case, there are no assignments possible to set
     if (unknownTotalWeight === 0) {
