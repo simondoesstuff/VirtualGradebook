@@ -3,12 +3,13 @@
     import SubIcon from "/static/svgs/SubIcon.svelte"
 
     export let icon;
+    export let color = "black"
 
     let spacing = "w-7 h-7 shrink-0";
 </script>
 
 {#if icon}
-    <button class={spacing + " border border-black grid place-items-center text-[1.25rem]"}>
+    <button on:click style="color: {color}" class={spacing + " border border-black grid place-items-center text-[1.25rem]"}>
         {#if icon === "add"}
             <AddIcon />
         {:else if icon === "sub"}

@@ -8,7 +8,7 @@
 </script>
 
 {#if icon}
-    <button class={spacing + " border border-black grid place-items-center text-[2rem]"}>
+    <button on:click class={spacing + " border border-black grid place-items-center text-[2rem]"}>
         {#if icon === "add"}
             <AddIcon />
         {:else if icon === "sub"}

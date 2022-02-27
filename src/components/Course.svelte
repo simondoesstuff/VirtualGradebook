@@ -2,7 +2,13 @@
     import Category from "$components/Category.svelte";
     import CategoryMod from "../components/CategoryMod.svelte";
     import {averageElements, computeGradeTargets} from "$scripts/GradeCalculation.ts";
+    import {fly} from "svelte/transition"
 
+    function rid() {
+        let min = 0;
+        let max = 99999999999;
+        return Math.floor(Math.random() * (max - min)) + min; // You can remove the Math.floor if you don't want it to be an integer
+    }
 
     const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -38,57 +44,76 @@
             return item;
         });
     }
+
+    function removeCategory(catIndex) {
+        categories.splice(catIndex, 1);
+        categories = categories
+    }
+
+    function addDefaultCategory() {
+        categories = [
+            ...categories,
+            {
+                assignments: [
+                    {id: rid()}
+                ],
+                id: rid()
+            }
+        ]
+    }
+
 </script>
 
-<div class="m-5">
-    <div class="flex justify-between items-center p-5 bg-neutral-500">
-        <h1 class="text-[1.5rem]">{title}</h1>
-        <div class="flex items-center">
-            <input
-                    class="w-10 h-10 text-center bg-gray-300"
-                    type="number"
-                    value={gradeCalculated}
-                    on:input={e => gradeCalculated = e.target.value = clamp(e.target.value, 0, 100)}
-            >
-            <div class="grid place-items-center w-10 h-10">
-                <span class="text-white text-[1.5rem]">%</span>
+<div class="m-10" id="course">
+    <div class="p-5">
+        <div class="flex justify-between items-center p-5">
+            <h1 class="text-[1.5rem]">{title}</h1>
+            <div class="flex items-center">
+                <input
+                        class="w-10 h-10 text-center bg-gray-300"
+                        type="number"
+                        value={gradeCalculated}
+                        on:input={e => gradeCalculated = e.target.value = clamp(e.target.value, 0, 100)}
+                >
+                <div class="grid place-items-center w-10 h-10">
+                    <span class="text-white text-[1.5rem]">%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-5">
+            <div class="flex flex-col gap-5 mx-auto max-w-4xl">
+                {#each categories as category, index (category.id)}
+                    <!--The category with the plus-->
+                    <div class="flex items-center gap-3" in:fly={{ x: 200, duration: 300 }} out:fly={{ x: 200, duration: 300 }}>
+                        <div class="flex flex-col gap-3">
+                            {#if categories.length !== 1}
+                                <CategoryMod on:click={() => removeCategory(index)} icon="sub"/>
+                            {/if}
+                            {#if categories.length-1 === index}
+                                <CategoryMod on:click={addDefaultCategory} icon="add"/>
+                            {/if}
+                        </div>
+                        <Category
+                                bind:title={category.title}
+                                bind:weight={category.weight}
+                                bind:gradeOverride={category.gradeOverride}
+                                bind:gradeCalculated={category.gradeCalculated}
+                                bind:gradeTarget={category.gradeTarget}
+                                bind:assignments={category.assignments}
+                        />
+                    </div>
+                {/each}
             </div>
         </div>
     </div>
-
-    <div class="p-5 bg-neutral-200">
-        <div class="flex flex-col gap-5 mx-auto max-w-4xl">
-            {#each categories as category, index}
-                {#if categories.length - 1 !== index}
-                    <!--The category without the plus-->
-                    <div class="flex items-center gap-3">
-                        <CategoryMod/>
-                        <CategoryMod icon="sub"/>
-                        <Category
-                                bind:title={category.title}
-                                bind:weight={category.weight}
-                                bind:gradeOverride={category.gradeOverride}
-                                bind:gradeCalculated={category.gradeCalculated}
-                                bind:gradeTarget={category.gradeTarget}
-                                bind:assignments={category.assignments}
-                        />
-                    </div>
-                {:else}
-                    <!--The category with the plus-->
-                    <div class="flex items-center gap-3">
-                        <CategoryMod icon="add"/>
-                        <CategoryMod icon="sub"/>
-                        <Category
-                                bind:title={category.title}
-                                bind:weight={category.weight}
-                                bind:gradeOverride={category.gradeOverride}
-                                bind:gradeCalculated={category.gradeCalculated}
-                                bind:gradeTarget={category.gradeTarget}
-                                bind:assignments={category.assignments}
-                        />
-                    </div>
-                {/if}
-            {/each}
-        </div>
-    </div>
 </div>
+
+<style>
+    #course {
+        border-radius: 50px;
+        background: #e0e0e0;
+        box-shadow: -25px 25px 50px #bebebe,
+        25px -25px 50px #ffffff;
+    }
+</style>
