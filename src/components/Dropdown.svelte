@@ -13,8 +13,8 @@
     let open = false;
 </script>
 
-<div class="relative mr-[2rem]">
-    <button class="w-14 h-14 grid place-items-center text-[2rem] bg-neutral-300 rounded-2xl"
+<div class="relative mr-[2rem] neumorphism">
+    <button class="w-14 h-14 grid place-items-center text-[2rem] rounded-2xl"
             on:click={dropdownClicked}
             use:clickOutside={() => open=false}>
         <HamburgerMenuIcon />
@@ -36,3 +36,13 @@
         </div>
     {/if}
 </div>
+
+
+<style>
+    .neumorphism {
+        border-radius: 50px;
+        background: linear-gradient(145deg, #f0f0f0, #cacaca);
+        box-shadow:  4px 4px 8px #bebebe,
+        -4px -4px 8px #f6f6f6;
+    }
+</style>
