@@ -1,7 +1,6 @@
 <script>
     import Course from "$components/Course.svelte";
-    import {uniqID} from "$scripts/Utils.ts";
-    import HamburgerMenuIcon from "../../static/svgs/HamburgerMenuIcon.svelte";
+    import {buildCourse} from "$scripts/CourseFactory.ts";
 
 
     let courses = [];
@@ -14,14 +13,13 @@
     function addDefaultCourse() {
         courses = [
             ...courses,
-            {
-                categories: [
-                    {assignments: [
-                            {id: uniqID()}
-                        ], id: uniqID()},
-                ],
-                id: uniqID()
-            }
+            buildCourse({
+                categories: [{
+                    assignments: [
+                        {}
+                    ]
+                }]
+            })
         ]
     }
 
