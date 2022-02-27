@@ -1,6 +1,6 @@
 <script>
     import Category from "$components/Category.svelte";
-    import CategoryMod from "../components/CategoryMod.svelte";
+    import CategoryMod from "$components/CategoryMod.svelte";
     import {averageElements, computeGradeTargets} from "$scripts/GradeCalculation.ts";
     import {fly} from "svelte/transition"
     import {uniqID} from "$scripts/Utils.ts";
