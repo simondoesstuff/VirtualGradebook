@@ -18,9 +18,6 @@
             id: rid()
         }
     ];
-
-    $: console.log(courses[0].categories.length)
-
 </script>
 
 {#each courses as course (course.id)}

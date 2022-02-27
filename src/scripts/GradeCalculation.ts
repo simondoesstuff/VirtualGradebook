@@ -60,34 +60,59 @@ export function computeGradeTargets(idealGrade, items) {
     let unknownTotalWeight = 0;
 
     for (let category of items) {
+        let categoryWeight = category.weight ?? 1;
+        totalWeight += categoryWeight;
+
+        // using the category override
         if (category.gradeOverride != null) {
-            category.weight ??= 1;
-            totalWeight += category.weight;
             knownWeightedGrades += category.gradeOverride * category.weight;
             continue;
         }
 
+        // using assignments inside the category
+
         let internalTotalWeight = 0;
 
         for (let assignment of category.assignments) {
-            assignment.weight ??= 1;
-            internalTotalWeight += assignment.weight;
+            let assignmentWeight = assignment.weight ?? 1;
+            internalTotalWeight += assignmentWeight;
+        }
+
+        if (internalTotalWeight === 0) {
+            // this should almost never happen
+            // but this is effectively meaning
+            // that there are no assignments
+
+            // skip the rest of the calculations
+            continue;
         }
 
         for (let assignment of category.assignments) {
-            let relativeWeight = assignment.weight / internalTotalWeight * category.weight;
+            let assignmentWeight = assignment.weight ?? 1;
+            let categoryWeight = category.weight ?? 1;
 
-            if (assignment.gradeOverride !== null) {
+            let relativeWeight = assignmentWeight / internalTotalWeight * categoryWeight;
+
+            if (assignment.gradeOverride != null) {
+                // use the set assignment override
                 knownWeightedGrades += relativeWeight * assignment.gradeOverride;
             } else {
+                // the assignment's grade is "unset"
                 unknownTotalWeight += relativeWeight;
             }
-
-            totalWeight += relativeWeight;
         }
     }
 
+    console.log('totalWeight ' + totalWeight)
+    console.log('knownWeightedGrades ' + knownWeightedGrades)
+    console.log('unknownTotalWeight ' + unknownTotalWeight)
+
     let gradeTarget = (idealGrade * totalWeight - knownWeightedGrades) / unknownTotalWeight;
+
+    // in this case, there are no assignments possible to set
+    if (unknownTotalWeight === 0) {
+        gradeTarget = null;
+    }
 
     items.forEach(category => {
         category.assignments.forEach(assignment => {

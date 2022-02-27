@@ -58,7 +58,6 @@
                         type="number"
                         placeholder={gradeCalculated}
                         bind:value={gradeOverride}
-                        on:input={e => gradeOverride = e.target.value = clamp(e.target.value, 0, 100)}
                 >
                 <div class="grid place-items-center w-10 h-10">
                     <span class="text-[1.5rem]">%</span>
