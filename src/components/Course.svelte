@@ -3,14 +3,8 @@
     import CategoryMod from "../components/CategoryMod.svelte";
     import {averageElements, computeGradeTargets} from "$scripts/GradeCalculation.ts";
     import {fly} from "svelte/transition"
+    import {uniqID} from "$scripts/Utils.ts";
 
-    function rid() {
-        let min = 0;
-        let max = 99999999999;
-        return Math.floor(Math.random() * (max - min)) + min; // You can remove the Math.floor if you don't want it to be an integer
-    }
-
-    const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
     export let categories = [];
 
@@ -40,9 +34,9 @@
             ...categories,
             {
                 assignments: [
-                    {id: rid()}
+                    {id: uniqID()}
                 ],
-                id: rid()
+                id: uniqID()
             }
         ]
     }

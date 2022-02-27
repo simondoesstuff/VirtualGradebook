@@ -1,21 +1,17 @@
 <script>
     import Course from "$components/Course.svelte";
+    import {uniqID} from "$scripts/Utils.ts";
 
-    function rid() {
-        let min = 0;
-        let max = 99999999999;
-        return Math.floor(Math.random() * (max - min)) + min; // You can remove the Math.floor if you don't want it to be an integer
-    }
 
     let courses = [
         {
             title: "CSC244",
             categories: [
                 {assignments: [
-                    {id: rid()}
-                ], id: rid()},
+                    {id: uniqID()}
+                ], id: uniqID()},
             ],
-            id: rid()
+            id: uniqID()
         }
     ];
 </script>
