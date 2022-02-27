@@ -51,7 +51,7 @@
 <div class="m-10 course">
     <div class="p-5">
         <div class="flex justify-between items-center p-5">
-            <h1 class="text-[2rem]">{title}</h1>
+            <input class="px-2.5 grow text-[2rem] mr-3" bind:value={title} placeholder="Course">
             <div class="flex items-center">
                 <input
                         class="w-10 h-10 text-center totalGrade"
