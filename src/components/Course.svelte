@@ -1,9 +1,11 @@
 <script>
     import Category from "$components/Category.svelte";
     import {averageElements, computeGradeTargets} from "$scripts/GradeCalculation.ts";
-    import {fly} from "svelte/transition"
+    import {crossfade, fly} from "svelte/transition"
     import {uniqID} from "$scripts/Utils.ts";
     import CategoryBuildButton from "$components/CategoryBuildButton.svelte";
+    import { flip } from 'svelte/animate';
+    import {quintOut} from "svelte/easing";
 
 
     export let categories = [];
@@ -40,6 +42,25 @@
             }
         ]
     }
+
+    // used for the animate:flip directive in the categories
+    const [send, receive] = crossfade({
+        duration: d => Math.sqrt(d * 200),
+
+        fallback(node, params) {
+            const style = getComputedStyle(node);
+            const transform = style.transform === 'none' ? '' : style.transform;
+
+            return {
+                duration: 600,
+                easing: quintOut,
+                css: t => `
+					transform: ${transform} scale(${t});
+					opacity: ${t}
+				`
+            };
+        }
+    });
 </script>
 
 <div class="mb-5 mx-auto max-w-7xl course">
@@ -68,15 +89,19 @@
             <div class="flex flex-col gap-5 mx-auto max-w-4xl">
                 {#each categories as category, index (category.id)}
                     <!--The category with the plus-->
-                    <div class="flex items-center gap-3"
-                         in:fly={{ x: 200, duration: 300 }}
-                         out:fly={{ x: 200, duration: 300 }}
+                    <div
+                            class="flex items-center gap-3"
+                            in:fly={{ x: 200, duration: 300 }}
+                            out:fly={{ x: 200, duration: 300 }}
                     >
+<!--                        in:receive={{key: category.id}}-->
+<!--                        out:send={{key: category.id}}-->
+<!--                        animate:flip={{duration: 150}}-->
                         <div class="flex flex-col gap-3">
                             {#if categories.length !== 1}
                                 <CategoryBuildButton on:click={() => removeCategory(index)} icon="sub"/>
                             {/if}
-                            {#if categories.length-1 === index}
+                            {#if categories.length - 1 === index}
                                 <CategoryBuildButton on:click={addDefaultCategory} icon="add"/>
                             {/if}
                         </div>
