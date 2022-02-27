@@ -1,6 +1,7 @@
 <script>
     import Course from "$components/Course.svelte";
     import {uniqID} from "$scripts/Utils.ts";
+    import HamburgerMenuIcon from "../../static/svgs/HamburgerMenuIcon.svelte";
 
 
     let courses = [];
@@ -26,10 +27,13 @@
 
     // add an inital entry to the state
     addDefaultCourse();
-
-    // todo remove
-    addDefaultCourse();
 </script>
+
+<div class="grid place-items-center">
+    <h1 class="px-2.5 grow text-[2rem] m-6 bg-transparent">
+        Virtual Gradebook
+    </h1>
+</div>
 
 {#each courses as course (course.id)}
     <Course
