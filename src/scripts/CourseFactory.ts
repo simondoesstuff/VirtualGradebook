@@ -1,8 +1,13 @@
 import {uniqID} from "$scripts/Utils";
 
-export function buildDefault(title: string) {
+export function buildDefaultCourse(title: string|undefined) {
     return buildCourse({
-        title
+        title,
+        categories: [{
+            assignments: [
+                {}  // starts with one category and one assignment
+            ]
+        }]
     });
 }
 
