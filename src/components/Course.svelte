@@ -1,9 +1,9 @@
 <script>
     import Category from "$components/Category.svelte";
-    import CategoryMod from "$components/CategoryMod.svelte";
     import {averageElements, computeGradeTargets} from "$scripts/GradeCalculation.ts";
     import {fly} from "svelte/transition"
     import {uniqID} from "$scripts/Utils.ts";
+    import CategoryBuildButton from "$components/CategoryBuildButton.svelte";
 
 
     export let categories = [];
@@ -74,10 +74,10 @@
                     >
                         <div class="flex flex-col gap-3">
                             {#if categories.length !== 1}
-                                <CategoryMod on:click={() => removeCategory(index)} icon="sub"/>
+                                <CategoryBuildButton on:click={() => removeCategory(index)} icon="sub"/>
                             {/if}
                             {#if categories.length-1 === index}
-                                <CategoryMod on:click={addDefaultCategory} icon="add"/>
+                                <CategoryBuildButton on:click={addDefaultCategory} icon="add"/>
                             {/if}
                         </div>
                         <Category

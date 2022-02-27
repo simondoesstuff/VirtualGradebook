@@ -67,14 +67,25 @@
     />
 </div>
 
-<div class="mx-auto max-w-7xl flex justify-end">
-    <div class="mx-16">
-        <button class="text-black px-2 py-1 bg-neutral-400">New</button>
-        <button class="text-black px-2 py-1 bg-neutral-400">Delete</button>
-    </div>
-</div>
 <Course
         bind:title={activeCourse.title}
         bind:gradeOverride={activeCourse.gradeOverride}
         bind:categories={activeCourse.categories}
 />
+
+<div class="mx-auto max-w-7xl flex justify-end">
+    <div class="mx-16">
+        <button class="text-black px-2 py-1 bg-neutral-400 creation-buttons-neumorphism">New</button>
+        <button class="text-black ml-3 px-2 py-1 bg-neutral-400 creation-buttons-neumorphism">Delete</button>
+    </div>
+</div>
+
+
+<style>
+    .creation-buttons-neumorphism {
+        border-radius: 50px;
+        background: linear-gradient(145deg, #f0f0f0, #cacaca);
+        box-shadow:  4px 4px 8px #bebebe,
+        -4px -4px 8px #f6f6f6;
+    }
+</style>

@@ -1,10 +1,9 @@
 <script>
     import Assignment from "./Assignment.svelte";
     import {averageElements} from "$scripts/GradeCalculation.ts";
-    import AssignmentMod from "$components/AssignmentMod.svelte";
     import {fly} from "svelte/transition"
-    import { flip } from 'svelte/animate';
     import {uniqID} from "$scripts/Utils.ts";
+    import AssignmentBuildButton from "$components/AssignmentBuildButton.svelte";
 
 
     export let assignments = [];
@@ -62,9 +61,9 @@
                 >
                     <div class="flex gap-2">
                         {#if assignments.length !== 1}
-                            <AssignmentMod on:click={() => removeAssignment(index)} icon="sub"/>
+                            <AssignmentBuildButton on:click={() => removeAssignment(index)} icon="sub"/>
                         {:else if assignments.length === 1}
-                            <AssignmentMod color="gray" icon="sub"/>
+                            <AssignmentBuildButton color="gray" icon="sub"/>
                         {/if}
                     </div>
                     <Assignment
@@ -76,7 +75,7 @@
                 </div>
             {/each}
             <div class="mx-auto mt-[.4rem]">
-                <AssignmentMod on:click={addDefaultAssignment} icon="add"/>
+                <AssignmentBuildButton on:click={addDefaultAssignment} icon="add"/>
             </div>
         </div>
     </div>
