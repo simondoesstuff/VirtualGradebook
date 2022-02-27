@@ -11,25 +11,30 @@
     // used to display the hamburger menu
     let gradebooks = [];
 
-    function removeCourse(catIndex) {
-        courses.splice(catIndex, 1);
-        courses = courses
+    function removeActiveCourse() {
+        if (courses.length === 1) return;
+
+        // todo select the course underneath the one you deleted instead of jumping to [0]
+
+        // remove the active course
+        courses = courses.filter(course => course.id !== activeCourseId);
+        activeCourseId = courses[0].id;
     }
 
+    // creates a new course and selects it as the new active course.
     function addDefaultCourse() {
+        let newCourse = buildDefaultCourse();
+
+        activeCourseId = newCourse.id;
+
         courses = [
             ...courses,
-            buildDefaultCourse()
-        ]
+            newCourse
+        ];
     }
 
     // add an inital entry to the state
     addDefaultCourse();
-    // todo remove those
-    addDefaultCourse();
-    addDefaultCourse();
-
-    activeCourseId = courses[0].id;
 
     // set the active course based on the active course id
     $: {
@@ -75,15 +80,25 @@
 
 <div class="mx-auto max-w-7xl flex justify-end">
     <div class="mx-16">
-        <button class="text-black px-2 py-1 bg-neutral-400 creation-buttons-neumorphism">New</button>
-        <button class="text-black ml-3 px-2 py-1 bg-neutral-400 creation-buttons-neumorphism">Delete</button>
+        <button
+                class="text-black px-3 py-2 bg-neutral-400 creation-buttons-neumorphism"
+                on:click={addDefaultCourse}
+        >
+            New
+        </button>
+        <button
+                class="text-black ml-3 px-3 py-2 bg-neutral-400 creation-buttons-neumorphism"
+                on:click={removeActiveCourse}
+        >
+            Delete
+        </button>
     </div>
 </div>
 
 
 <style>
     .creation-buttons-neumorphism {
-        border-radius: 50px;
+        border-radius: 15px;
         background: linear-gradient(145deg, #f0f0f0, #cacaca);
         box-shadow:  4px 4px 8px #bebebe,
         -4px -4px 8px #f6f6f6;
