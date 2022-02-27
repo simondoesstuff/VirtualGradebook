@@ -9,7 +9,7 @@
 </script>
 
 {#if icon}
-    <button on:click style="color: {color}" class={spacing + " border border-black grid place-items-center text-[1.25rem]"}>
+    <button on:click style="color: {color}" class={spacing + " grid place-items-center text-[1.25rem] ass-mob-btn"}>
         {#if icon === "add"}
             <AddIcon />
         {:else if icon === "sub"}
@@ -19,3 +19,12 @@
 {:else}
     <div class={spacing}></div>
 {/if}
+
+<style>
+    .ass-mob-btn {
+        border-radius: 50px;
+        background: linear-gradient(145deg, #f0f0f0, #cacaca);
+        box-shadow:  4px 4px 8px #bebebe,
+        -4px -4px 8px #f6f6f6;
+    }
+</style>

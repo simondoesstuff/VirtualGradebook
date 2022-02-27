@@ -8,7 +8,7 @@
 </script>
 
 {#if icon}
-    <button on:click class={spacing + " border border-black grid place-items-center text-[2rem]"}>
+    <button on:click class={spacing + " text-black grid place-items-center text-[2rem] cat-mob-btn"}>
         {#if icon === "add"}
             <AddIcon />
         {:else if icon === "sub"}
@@ -18,3 +18,12 @@
 {:else}
     <div class={spacing}></div>
 {/if}
+
+<style>
+    .cat-mob-btn {
+        border-radius: 50px;
+        background: linear-gradient(145deg, #f0f0f0, #cacaca);
+        box-shadow:  4px 4px 8px #bebebe,
+        -4px -4px 8px #f6f6f6;
+    }
+</style>

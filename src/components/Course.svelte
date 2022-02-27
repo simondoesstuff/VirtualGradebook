@@ -45,8 +45,9 @@
 <div class="m-10 course">
     <div class="p-5">
         <div class="flex justify-between items-center p-5">
-            <input class="px-2.5 grow text-[2rem] mr-3" bind:value={title} placeholder="Course">
+            <input class="px-2.5 grow text-[2rem] mr-3 bg-transparent" bind:value={title} placeholder="Course">
             <div class="flex items-center">
+                <span class="mr-3">Total:</span>
                 <input
                         class="w-10 h-10 text-center totalGrade"
                         type="number"
@@ -60,6 +61,10 @@
         </div>
 
         <div class="p-5">
+            <div class="mx-auto max-w-4xl text-right text-[.5rem] mb-2">
+                <span class="mr-2.5 w-8 inline-block text-center">Weight</span>
+                <span class="mr-6 w-8 inline-block text-center">Grade</span>
+            </div>
             <div class="flex flex-col gap-5 mx-auto max-w-4xl">
                 {#each categories as category, index (category.id)}
                     <!--The category with the plus-->

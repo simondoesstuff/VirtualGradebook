@@ -37,20 +37,20 @@
 </script>
 
 
-<div class="p-5 w-full category">
+<div class="p-6 w-full category">
     <div class="flex justify-between gap-3 h-8">
         <!--    Title    -->
-        <input class="flex-grow px-3" bind:value={title} placeholder="Category">
+        <input class="flex-grow px-3 category-name" bind:value={title} placeholder="Category">
 
         <div class="flex gap-3">
             <!--    Weight    -->
-            <input class="w-8 text-center" type="number" bind:value={weight} placeholder="1">
+            <input class="w-8 text-center weight-box" type="number" bind:value={weight} placeholder="1">
             <!--    Grade   -->
-            <input class="w-8 text-center" type="number" bind:value={gradeOverride} placeholder={gradeCalculated}>
+            <input class="w-8 text-center grade-box" type="number" bind:value={gradeOverride} placeholder={gradeCalculated}>
         </div>
     </div>
 
-    <hr class="border-neutral-300 border-t-2 mt-3 mx-20">
+    <hr class="border-neutral-300 border-t-2 mt-3 mx-16">
 
     <div>
         <div class="flex flex-col gap-3 pt-3">
@@ -71,7 +71,7 @@
                     />
                 </div>
             {/each}
-            <div class="mx-auto">
+            <div class="mx-auto mt-[.4rem]">
                 <AssignmentMod on:click={addDefaultAssignment} icon="add"/>
             </div>
         </div>
@@ -84,5 +84,20 @@
         background: #e0e0e0;
         box-shadow: inset 8px 8px 16px #bebebe,
         inset -8px -8px 16px #ffffff;
+    }
+
+    .category-name {
+        border-radius: 8px;
+        background: #e0e0e0;
+        box-shadow: inset 5px 5px 7px #bebebe,
+        inset -5px -5px 7px #ffffff;
+    }
+
+    .weight-box, .grade-box {
+        border-radius: 8px;
+        background: #e0e0e0;
+        box-shadow: inset 3px 3px 5px #bebebe, inset -3px -3px 5px #ffffff;
+        font-size: .8rem;
+        line-height: .8rem;
     }
 </style>

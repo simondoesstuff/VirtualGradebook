@@ -22,6 +22,15 @@ body {
     @apply tracking-wider;
     font-family: 'Roboto', sans-serif;
 }
-input::placeholder {
-    color: #3495eb;
+
+input[type=number]::placeholder {
+    color: #b9b9b9;
+}
+
+input[type=number]::placeholder {
+    color: #3495ef;
+}
+
+*:focus {
+    outline: none;
 }
