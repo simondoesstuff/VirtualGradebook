@@ -52,3 +52,10 @@
             bind:categories={course.categories}
     />
 {/each}
+
+<div class="mx-auto max-w-7xl flex justify-end">
+    <div class="mx-16">
+        <button class="text-black px-2 py-1 bg-neutral-400">New</button>
+        <button class="text-black px-2 py-1 bg-neutral-400">Delete</button>
+    </div>
+</div>
