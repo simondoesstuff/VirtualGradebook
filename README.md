@@ -9,6 +9,8 @@ Test discovery and execution information is automatically stored in `testDiscove
 `testExecution.json`. `testDiscovery` searches for tests in the current python repository.
 It will recursively search directories.
 
+*Note that PyTest does **not** support test suites.*
+
 ## Usage
 
 See [Demo.py](./Demo.py)
