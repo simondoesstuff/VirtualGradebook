@@ -11,7 +11,7 @@ It will recursively search directories.
 
 ## Usage
 
-See [Demo.py](.Demo.py)
+See [Demo.py](./Demo.py)
 
 
 ```py
