@@ -1,0 +1,29 @@
+{
+  "testCases": [
+    {
+      "id": "ExampleTests/test_ExampleTests1.py::test_areCatsNice",
+      "label": "test_areCatsNice",
+      "file": "ExampleTests/test_ExampleTests1.py",
+      "test-suites": []
+    },
+    {
+      "id": "ExampleTests/test_ExampleTests1.py::test_areCatsMean",
+      "label": "test_areCatsMean",
+      "file": "ExampleTests/test_ExampleTests1.py",
+      "test-suites": []
+    },
+    {
+      "id": "ExampleTests/test_ExampleTests2.py::test_powerTest",
+      "label": "test_powerTest",
+      "file": "ExampleTests/test_ExampleTests2.py",
+      "test-suites": []
+    },
+    {
+      "id": "ExampleTests/test_ExampleTests2.py::test_addNumbers",
+      "label": "test_addNumbers",
+      "file": "ExampleTests/test_ExampleTests2.py",
+      "test-suites": []
+    }
+  ],
+  "testSuites": []
+}

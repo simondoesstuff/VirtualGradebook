@@ -1,0 +1,27 @@
+{
+  "testCases": [
+    {
+      "id": "test_areCatsNice",
+      "status": "passed",
+      "duration": "0.00s"
+    },
+    {
+      "id": "test_areCatsMean",
+      "status": "failed",
+      "duration": "0.05s",
+      "failureMsg": "FAILED ExampleTests/test_ExampleTests1.py::test_areCatsMean - assert False"
+    },
+    {
+      "id": "test_powerTest",
+      "status": "passed",
+      "duration": "0.01s"
+    },
+    {
+      "id": "test_addNumbers",
+      "status": "failed",
+      "duration": "0.01s",
+      "failureMsg": "FAILED ExampleTests/test_ExampleTests2.py::test_addNumbers - assert (2 + 3) == 6"
+    }
+  ],
+  "testSuites": []
+}
